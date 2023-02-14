@@ -1,30 +1,82 @@
-// hexcode
-const data = [
-    'asdf',
-    'zxcv'
-]
-
-const hexcode = (input) => {
-    console.log('!isHexcode(input) :', isHexcode(input));
-    // if (!isHexcode(input))
-        // toHexcode()
-        
+// to check if input is hexcode or not
+const isHex = (input) => {
+    const hexRegex = /[0-9A-Fa-f]{6}/g;
+    let result = input.match(hexRegex) ? true : false
+    return result
 }
 
-const isHexcode = (input) => {
-    var hexRegex = /[0-9A-Fa-f]{6}/g;
-    return input.match(hexRegex)
+// convert input to hexcode
+const convertStringToHex = (input) => {
+    let hexcode = '',
+        inputLen = input.length
+
+    for (let i = 0; i < inputLen; i++) {
+        hexcode += (input.charCodeAt(i)).toString(16)
+    }
+
+    return hexcode;
 }
 
-const toHexcode = () => {
+// main function
+// save hexcode in jason file
+const saveHexcodeInJson = (input) => {
+
+    const fs = require('fs')
+
+    if (!isHex(input)) {
+        input = convertStringToHex(input)
+    }
+
+    fs.readFile("./hexData.json", 'utf8', (err, data) => {
+        if (err) {
+            console.log("Error reading file:", err);
+            return;
+        }
+        data = JSON.parse(data)
+        data[input] = Date.now()
+
+        console.log(data)
+
+        fs.writeFile("./hexData.json", JSON.stringify(data), err => {
+            if (err) console.log("Error writing file:", err);
+        });
+    });
 
 }
-
-hexcode("sthbn")
-
-
+// saveHexcodeInJson("geeks")
+// saveHexcodeInJson("siddharth")
 
 
-// 
-// 
-// 
+const showHexcode = (input) => {
+    const fs = require('fs')
+    fs.readFile("./hexData.json", 'utf8', (err, data) => {
+        if (err) {
+            console.log("Error reading file:", err);
+            return;
+        }
+        data = JSON.parse(data)
+        let user = { [input]: data[input]}
+        console.log(user)
+    });
+}
+
+showHexcode("6765656b73")
+
+
+
+
+
+
+
+// const jsonString = JSON.stringify(customer)
+// fs.writeFile('./newCustomer.json', jsonString, err => {
+//     if (err) {
+//         console.log('Error writing file', err)
+//     } else {
+//         console.log('Successfully wrote file')
+//     }
+// })
+
+// const jsonString2 = JSON.stringify(customer, null, 2);
+
+// console.log(jsonString2);
