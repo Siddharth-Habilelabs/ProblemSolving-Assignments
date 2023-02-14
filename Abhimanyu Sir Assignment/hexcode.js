@@ -18,7 +18,7 @@ const convertStringToHex = (input) => {
 }
 
 // main function
-// save hexcode in jason file
+// save hexcode in json file
 const saveHexcodeInJson = (input) => {
 
     const fs = require('fs')
