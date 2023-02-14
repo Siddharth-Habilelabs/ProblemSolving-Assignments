@@ -1,0 +1,3 @@
+#  2 pointers approach is for sorted array
+#  first sort the array
+#  to reduce time complexity (to - O[nlogn] or O[n])
