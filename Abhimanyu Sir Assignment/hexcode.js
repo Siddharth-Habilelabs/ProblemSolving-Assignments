@@ -29,21 +29,34 @@ const saveHexcodeInJson = (input) => {
 
     fs.readFile("./hexData.json", 'utf8', (err, data) => {
         if (err) {
-            console.log("Error reading file:", err);
-            return;
+            const hexdata = {
+                [input]: Date.now()
+            }
+
+            const jsonString = JSON.stringify(hexdata)
+
+            fs.writeFile('hexData.json', jsonString, err => {
+                if (err) {
+                    console.log('Error writing file', err)
+                } else {
+                    console.log('Successfully wrote file')
+                }
+            })
         }
-        data = JSON.parse(data)
-        data[input] = Date.now()
+        else {
+            data = JSON.parse(data)
+            data[input] = Date.now()
 
-        console.log(data)
+            console.log(data)
 
-        fs.writeFile("./hexData.json", JSON.stringify(data), err => {
-            if (err) console.log("Error writing file:", err);
-        });
+            fs.writeFile("./hexData.json", JSON.stringify(data), err => {
+                if (err) console.log("Error writing file:", err);
+            });
+        }
     });
 
 }
-// saveHexcodeInJson("geeks")
+saveHexcodeInJson("SIDDHARTH")
 // saveHexcodeInJson("siddharth")
 
 
@@ -55,28 +68,9 @@ const showHexcode = (input) => {
             return;
         }
         data = JSON.parse(data)
-        let user = { [input]: data[input]}
+        let user = { [input]: data[input] }
         console.log(user)
     });
 }
 
-showHexcode("6765656b73")
-
-
-
-
-
-
-
-// const jsonString = JSON.stringify(customer)
-// fs.writeFile('./newCustomer.json', jsonString, err => {
-//     if (err) {
-//         console.log('Error writing file', err)
-//     } else {
-//         console.log('Successfully wrote file')
-//     }
-// })
-
-// const jsonString2 = JSON.stringify(customer, null, 2);
-
-// console.log(jsonString2);
+// showHexcode("534944444841525448")
